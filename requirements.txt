@@ -1,0 +1,15 @@
+# Core server dependencies
+fastapi==0.115.0
+uvicorn==0.30.1
+gunicorn==22.0.0
+
+# Data modeling and validation
+pydantic==2.8.2
+pydantic-core==2.20.1
+
+# Optional: JSON utilities and HTTP client (if you expand later)
+requests==2.32.3
+python-multipart==0.0.9
+
+# Optional: Useful for pretty-printing or local testing
+orjson==3.10.3

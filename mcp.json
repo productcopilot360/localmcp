@@ -1,0 +1,59 @@
+{
+  "name": "local_mcp_server",
+  "version": "0.1.0",
+  "description": "Local MCP server exposing summarize and sentiment analysis tools",
+  "entry_point": "https://overpowerful-kandace-synoetic.ngrok-free.dev",
+  "protocol": "http/1.1",
+  "authentication": {
+    "type": "none"
+  },
+  "tools": [
+    {
+      "name": "summarize_feedback",
+      "description": "Summarizes user feedback text.",
+      "args": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Feedback text to summarize"
+          }
+        },
+        "required": ["text"]
+      },
+      "returns": {
+        "type": "object",
+        "properties": {
+          "summary": { "type": "string" }
+        }
+      }
+    },
+    {
+      "name": "sentiment_check",
+      "description": "Detects sentiment (positive/neutral/negative) in text.",
+      "args": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Input text to analyze"
+          }
+        },
+        "required": ["text"]
+      },
+      "returns": {
+        "type": "object",
+        "properties": {
+          "sentiment": { "type": "string" }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "name": "insight_resource",
+      "description": "Example insight resource endpoint",
+      "endpoint": "/resources/insights"
+    }
+  ]
+}
