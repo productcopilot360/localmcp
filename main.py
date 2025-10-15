@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 app = FastAPI(title="Local MCP Server")
 
-# ✅ Your MCP manifest
 MCP_MANIFEST = {
     "name": "local-mcp-server",
     "version": "0.1.0",
@@ -18,19 +17,12 @@ MCP_MANIFEST = {
             "description": "Summarizes user feedback text.",
             "args": {
                 "type": "object",
-                "properties": {
-                    "text": {
-                        "type": "string",
-                        "description": "Feedback text to summarize."
-                    }
-                },
+                "properties": {"text": {"type": "string"}},
                 "required": ["text"]
             },
             "returns": {
                 "type": "object",
-                "properties": {
-                    "summary": {"type": "string"}
-                }
+                "properties": {"summary": {"type": "string"}}
             }
         },
         {
@@ -38,19 +30,12 @@ MCP_MANIFEST = {
             "description": "Detects sentiment (positive/neutral/negative) in text.",
             "args": {
                 "type": "object",
-                "properties": {
-                    "text": {
-                        "type": "string",
-                        "description": "Input text to analyze."
-                    }
-                },
+                "properties": {"text": {"type": "string"}},
                 "required": ["text"]
             },
             "returns": {
                 "type": "object",
-                "properties": {
-                    "sentiment": {"type": "string"}
-                }
+                "properties": {"sentiment": {"type": "string"}}
             }
         }
     ],
@@ -63,20 +48,18 @@ MCP_MANIFEST = {
     ]
 }
 
-# ✅ 1. Discovery endpoint for MCP clients (POST /)
+
+@app.get("/")
 @app.post("/")
-async def post_manifest():
+async def manifest():
+    """Return MCP manifest for both GET and POST"""
     return JSONResponse(content=MCP_MANIFEST)
 
-# ✅ 2. Optional schema endpoint for manual testing
-@app.get("/schema")
-async def get_schema():
-    return JSONResponse(content=MCP_MANIFEST)
 
-# ✅ 3. Tool invocation model and endpoint
 class InvokeRequest(BaseModel):
     tool_name: str
     params: dict
+
 
 @app.post("/invoke")
 async def invoke_tool(req: InvokeRequest):
@@ -99,7 +82,7 @@ async def invoke_tool(req: InvokeRequest):
 
     raise HTTPException(status_code=404, detail=f"Tool '{tool_name}' not found.")
 
-# ✅ 4. Example resource endpoint
+
 @app.get("/resources/insights")
 async def get_insights():
     return {"insights": ["This is a demo resource endpoint."]}
